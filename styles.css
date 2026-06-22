@@ -1,0 +1,389 @@
+/* ===========================================================
+   Проект Айа — лонгрид «Работа с Нафсом»
+   Дизайн-система: ночная синь + золото, звёздная текстура. Адаптивно.
+   =========================================================== */
+
+:root{
+  /* фоны (тёмная «ночная» гамма) */
+  --bg:#0A1626;
+  --bg2:#102339;
+  --card:#122840;
+  /* акцент — золото */
+  --gold:#D9B97E;
+  --gold-2:#EAD3A0;
+  --gold-deep:#CBA869;   /* золото для мелкого текста-акцента на тёмном */
+  --head:#EAD3A0;        /* цвет крупных заголовков */
+  /* текст */
+  --ink:#E8EDF4;
+  --gray:#B4BECC;
+  --gray-2:#8C97A6;
+  /* линии/тени */
+  --line:rgba(220,228,238,.13);
+  --line-2:rgba(220,228,238,.22);
+  --shadow:0 20px 50px rgba(0,0,0,.45);
+  --shadow-sm:0 8px 24px rgba(0,0,0,.30);
+  /* типографика */
+  --serif:'Playfair Display', Georgia, serif;
+  --label:'Montserrat', system-ui, sans-serif;
+  --body:'Manrope', system-ui, sans-serif;
+  --script:'Caveat', cursive;
+  --arabic:'Amiri', 'Cormorant Garamond', serif;
+  --maxw:720px;
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  font-family:var(--body);
+  background:
+    radial-gradient(1200px 760px at 78% -6%, rgba(36,74,124,.55), transparent 56%),
+    var(--bg);
+  color:var(--ink);
+  font-size:18px;
+  line-height:1.76;
+  letter-spacing:.002em;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+
+/* звёздная текстура — очень тихая, чтобы не мешать чтению (только лёгкий мерцающий фон) */
+body::before{
+  content:"";
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+  background-image:
+    radial-gradient(rgba(255,255,255,.045) 1px, transparent 1.4px),
+    radial-gradient(rgba(255,255,255,.03) 1px, transparent 1.4px);
+  background-size:52px 52px, 83px 83px;
+  background-position:0 0, 24px 33px;
+}
+
+/* ---------- прогресс-бар чтения ---------- */
+.progress{
+  position:fixed; top:0; left:0; height:4px; width:0%;
+  background:linear-gradient(90deg, var(--gold), var(--gold-2));
+  z-index:100; transition:width .1s linear;
+}
+
+/* ---------- контейнер контента ---------- */
+.wrap{
+  position:relative; z-index:1;
+  max-width:var(--maxw); margin:0 auto; padding:0 24px 80px;
+}
+section.block{margin-top:clamp(44px,7vw,74px);}
+
+/* ---------- типографика ---------- */
+.eyebrow{
+  font-family:var(--label); font-weight:700; font-size:12.5px;
+  letter-spacing:.18em; text-transform:uppercase; color:var(--gold-deep);
+  display:inline-block; margin-bottom:14px;
+}
+h1{
+  font-family:var(--label); font-weight:800; text-transform:uppercase;
+  font-size:clamp(27px,5.2vw,46px); line-height:1.16;
+  letter-spacing:.005em; margin:.1em 0 .45em; color:var(--head);
+}
+h2{
+  font-family:var(--label); font-weight:800; text-transform:uppercase;
+  font-size:clamp(21px,3.7vw,31px); line-height:1.22;
+  letter-spacing:.008em; margin:1.9em 0 .7em; color:var(--head);
+}
+h3{
+  font-family:var(--label); font-weight:800;
+  font-size:clamp(17px,3vw,21px); line-height:1.28;
+  letter-spacing:.01em; margin:1.9em 0 .6em; color:var(--ink);
+}
+/* первый заголовок в секции и заголовок сразу после «eyebrow» — без лишнего отступа сверху */
+.block > h2:first-child, .block > h3:first-child{margin-top:0;}
+.eyebrow + h1, .eyebrow + h2, .eyebrow + h3{margin-top:.1em;}
+p{margin:0 0 1.7em;}
+.lead{font-size:clamp(19px,2.6vw,22px); line-height:1.6; color:var(--ink);}
+.muted{color:var(--gray);}
+.center{text-align:center;}
+strong,b{font-weight:700; color:#F2F6FB;}
+
+/* подсветка важных слов */
+.mark{
+  background:linear-gradient(180deg,transparent 58%, rgba(201,163,106,.34) 58%);
+  padding:0 .05em; font-weight:600;
+}
+.gold{color:var(--gold-deep); font-weight:700;}
+
+/* рукописный авторский акцент (как у Идриса) — точечно, отдельной строкой */
+.hand{
+  font-family:var(--script); color:var(--gold-2); font-weight:700;
+  font-size:clamp(27px,4.8vw,42px); line-height:1.18;
+  display:block; text-align:center; margin:clamp(20px,4vw,34px) auto;
+  max-width:90%;
+}
+.hand.left{text-align:left; margin-left:0;}
+
+/* разделитель-орнамент */
+.sep{
+  display:flex; align-items:center; justify-content:center; gap:14px;
+  margin:clamp(30px,6vw,52px) 0; color:var(--gold);
+}
+.sep::before,.sep::after{
+  content:""; height:1px; width:70px; background:var(--line-2);
+}
+.sep .di{font-size:18px; opacity:.8;}
+/* тонкий разделитель (частые <hr> из оригинала) */
+.rule{height:1px; background:var(--line); border:0; margin:clamp(20px,3.5vw,30px) 0;}
+
+/* ---------- HERO ---------- */
+.hero{
+  position:relative; z-index:1; overflow:hidden;
+  background:
+    radial-gradient(700px 520px at 108% -14%, rgba(217,185,126,.22), transparent 60%),
+    radial-gradient(560px 460px at -12% 70%, rgba(60,110,170,.16), transparent 60%);
+  border-bottom:1px solid var(--line);
+}
+.hero .wrap{padding-top:clamp(40px,6vw,58px); padding-bottom:clamp(40px,7vw,66px);}
+.hero .badge{
+  font-family:var(--script); color:var(--gold-deep);
+  font-size:clamp(26px,5vw,38px); line-height:1; display:block; margin-bottom:6px;
+}
+.hero .sub{
+  font-family:var(--label); font-weight:600; font-size:clamp(12px,2.4vw,14px);
+  letter-spacing:.04em; text-transform:uppercase; color:var(--gray);
+  margin-top:6px;
+}
+.hero .sub .ar{font-family:var(--arabic); text-transform:none; letter-spacing:0;}
+
+/* ---------- pills (теги, словарь) ---------- */
+.pills{display:flex; flex-wrap:wrap; gap:10px; margin:22px 0 4px;}
+.pill{
+  font-family:var(--label); font-weight:600; font-size:13px;
+  padding:9px 16px; border-radius:100px; background:rgba(201,163,106,.10);
+  border:1px solid var(--line-2); color:var(--ink); white-space:nowrap;
+}
+.pill .ic{color:var(--gold-deep); margin-right:6px;}
+
+/* список «путь к...» */
+.checklist{list-style:none; padding:0; margin:20px 0 30px; display:grid; gap:18px;}
+.checklist li{
+  position:relative; padding-left:34px; font-weight:500;
+}
+.checklist li::before{
+  content:"✦"; position:absolute; left:0; top:0; color:var(--gold);
+  font-size:18px;
+}
+/* нумерованный вариант checklist */
+ol.checklist{counter-reset:cl;}
+ol.checklist li{counter-increment:cl;}
+ol.checklist li::before{content:counter(cl); font-size:14px; font-weight:800;
+  top:2px; color:var(--gold-deep);}
+
+/* список достижений с галочками */
+.ticks{list-style:none; padding:0; margin:18px 0 30px; display:grid; gap:16px;}
+.ticks li{position:relative; padding-left:32px; font-weight:600;}
+.ticks li::before{content:"✅"; position:absolute; left:0; top:0; font-size:15px;}
+
+/* словарь */
+.glossary{
+  background:var(--bg2); border:1px solid var(--line);
+  border-radius:18px; padding:28px 28px 24px; margin:26px 0 34px;
+}
+.glossary .gt{
+  font-family:var(--label); font-weight:800; font-size:12px; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--gold-deep); margin-bottom:20px;
+}
+.glossary dl{margin:0; display:grid; gap:20px;}
+.glossary dt{font-weight:700; display:inline;}
+.glossary dd{margin:0; color:var(--gray); display:inline; font-style:italic;}
+.glossary .row{border-bottom:1px dashed var(--line); padding-bottom:20px;}
+.glossary .row:last-child{border:0; padding-bottom:0;}
+
+/* ---------- callout (важная мысль, золотая полоса слева) ---------- */
+.callout{
+  position:relative; background:var(--card); border:1px solid var(--line);
+  border-radius:18px; padding:22px 24px 22px 28px; margin:26px 0;
+  box-shadow:var(--shadow-sm); overflow:hidden;
+}
+.callout::before{
+  content:""; position:absolute; left:0; top:0; bottom:0; width:5px;
+  background:linear-gradient(180deg,var(--gold),var(--gold-2));
+}
+.callout p:last-child{margin-bottom:0;}
+.callout .lbl{
+  font-family:var(--label); font-weight:800; font-size:11.5px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--gold-deep); display:block; margin-bottom:8px;
+}
+
+/* callout акцентный — золотой градиент, тёмный текст (ключевые выводы) */
+.callout.hot{
+  background:linear-gradient(120deg,var(--gold) 0%, var(--gold-2) 100%);
+  border:none; color:#15263C; box-shadow:var(--shadow);
+}
+.callout.hot::before{display:none;}
+.callout.hot strong{color:#0B1626;}
+.callout.hot .lbl{color:rgba(11,22,38,.72);}
+.callout.hot p{color:#15263C;}
+
+/* ---------- цитата (хадис / аят) ---------- */
+.quote{
+  position:relative; margin:28px 0; padding:6px 0 6px 26px;
+  border-left:3px solid var(--gold);
+}
+.quote p{
+  font-family:var(--body); font-size:clamp(18px,2.6vw,22px);
+  line-height:1.5; font-weight:500; color:var(--ink); margin-bottom:.3em;
+}
+.quote .src{
+  font-family:var(--label); font-weight:600; font-size:12.5px; font-style:normal;
+  letter-spacing:.04em; color:var(--gold-deep); text-transform:uppercase;
+}
+.quote .ar{
+  font-family:var(--arabic); font-style:normal; font-size:1.15em;
+  display:block; direction:rtl; color:var(--gold-deep); margin-bottom:.2em;
+}
+.ar{font-family:var(--arabic);}
+
+/* ---------- карточки ---------- */
+.cards{display:grid; gap:16px; margin:24px 0;}
+.card{
+  background:var(--card); border:1px solid var(--line); border-radius:18px;
+  padding:24px 26px; box-shadow:var(--shadow-sm);
+}
+.card .step-n{
+  font-family:var(--label); font-weight:900; font-size:30px; line-height:1;
+  background:linear-gradient(120deg,var(--gold-deep),var(--gold));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  margin-bottom:8px;
+}
+.card h3{margin-bottom:.45em;}
+.card p:last-child{margin-bottom:0;}
+
+/* две колонки на десктопе (мышление / стороны таланта) */
+.duo{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:24px 0;}
+.duo .card .ic{font-size:26px; display:block; margin-bottom:8px;}
+
+/* ---------- метрики результата ---------- */
+.metrics{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:24px 0;}
+.metric{
+  background:var(--bg2); border:1px solid var(--line-2); border-radius:16px;
+  padding:18px 16px; text-align:center;
+}
+.metric .num{
+  font-family:var(--label); font-weight:900; font-size:clamp(22px,4vw,30px);
+  line-height:1; color:var(--gold-deep);
+}
+.metric .lbl{font-size:13px; color:var(--gray); margin-top:8px; line-height:1.35;}
+
+/* плашка-результат (после кейса) */
+.result{
+  background:linear-gradient(120deg,rgba(201,163,106,.14),rgba(224,199,155,.18));
+  border:1px solid var(--line-2); border-radius:18px;
+  padding:22px 24px; margin:26px 0;
+}
+.result .rt{
+  font-family:var(--label); font-weight:800; font-size:12px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--gold-deep); margin-bottom:8px; display:block;
+}
+.result p:last-child{margin-bottom:0;}
+
+/* формула (стрелочная цепочка) */
+.formula{
+  background:linear-gradient(120deg,#0C1E33,#0A1525);
+  color:var(--ink); border:1px solid rgba(217,185,126,.28); border-radius:18px;
+  padding:24px 26px; margin:26px 0; font-weight:500; line-height:1.7;
+}
+.formula .ft{
+  font-family:var(--label); font-weight:800; font-size:12px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--gold-2); margin-bottom:10px; display:block;
+}
+.formula b{color:#fff;}
+.formula .ar{color:var(--gold-2);}
+
+/* ---------- изображения ---------- */
+figure.img{margin:30px 0; text-align:center;}
+figure.img img{
+  max-width:100%; width:auto; height:auto; display:block; margin:0 auto;
+  border-radius:18px; box-shadow:var(--shadow); background:var(--card);
+  border:1px solid var(--line);
+}
+figure.img figcaption{
+  font-size:13.5px; color:var(--gray-2); text-align:center; margin-top:10px;
+  font-style:italic;
+}
+/* галерея мелких фото */
+.gallery{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:24px 0;}
+.gallery img{
+  width:100%; height:100%; aspect-ratio:1/1; object-fit:cover;
+  border-radius:14px; box-shadow:var(--shadow-sm); border:1px solid var(--line);
+}
+
+/* ---------- кнопка «следующая часть» ---------- */
+.next{
+  margin:clamp(48px,9vw,80px) 0 10px; text-align:center;
+}
+.next .pre{
+  font-family:var(--label); font-weight:700; font-size:12px; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--gray-2); margin-bottom:16px;
+}
+.btn{
+  display:inline-flex; align-items:center; gap:12px;
+  font-family:var(--label); font-weight:800; font-size:15px; letter-spacing:.02em;
+  text-transform:uppercase; text-decoration:none; color:#13243B;
+  background:linear-gradient(120deg,var(--gold) 0%, var(--gold-2) 100%);
+  padding:18px 34px; border-radius:100px;
+  box-shadow:0 12px 34px rgba(217,185,126,.26);
+  transition:transform .22s ease, box-shadow .22s ease;
+}
+.btn:hover{transform:translateY(-3px); box-shadow:0 18px 44px rgba(217,185,126,.40);}
+.btn .arr{transition:transform .22s ease;}
+.btn:hover .arr{transform:translateX(5px);}
+.btn.ghost{
+  background:transparent; color:var(--gold-2); border:1.5px solid var(--gold);
+  box-shadow:none;
+}
+.btn.ghost:hover{background:rgba(217,185,126,.10); box-shadow:none;}
+
+/* ---------- финальный CTA ---------- */
+.cta{
+  position:relative; overflow:hidden; margin-top:clamp(48px,9vw,80px);
+  background:
+    radial-gradient(620px 460px at 108% -12%, rgba(217,185,126,.22), transparent 60%),
+    radial-gradient(520px 420px at -10% 110%, rgba(60,110,170,.18), transparent 60%),
+    linear-gradient(168deg,#102843 0%, #0A1626 100%);
+  border:1px solid rgba(217,185,126,.30); border-radius:26px;
+  padding:clamp(34px,6vw,56px) clamp(24px,5vw,46px); text-align:center;
+}
+.cta h2{margin-bottom:.3em;}
+.cta .sprint-name{
+  color:var(--gold-2);
+}
+.cta .cta-actions{display:flex; flex-direction:column; gap:14px; align-items:center; margin-top:26px;}
+.cta .pay-row{display:flex; gap:14px; flex-wrap:wrap; justify-content:center;}
+.cta .note{font-size:14px; color:var(--gray); margin-top:18px;}
+
+/* ---------- футер ---------- */
+.foot{
+  max-width:var(--maxw); margin:0 auto; padding:40px 24px 60px;
+  text-align:center; color:var(--gray-2); font-size:13px;
+  border-top:1px solid var(--line); position:relative; z-index:1;
+}
+
+/* ---------- анимация появления ---------- */
+.reveal{opacity:0; transform:translateY(26px); transition:opacity .7s ease, transform .7s ease;}
+.reveal.in{opacity:1; transform:none;}
+@media (prefers-reduced-motion:reduce){
+  .reveal{opacity:1; transform:none; transition:none;}
+  html{scroll-behavior:auto;}
+}
+
+/* ---------- адаптив ---------- */
+@media (max-width:680px){
+  body{font-size:17px;}
+  .metrics{grid-template-columns:1fr;}
+  .duo{grid-template-columns:1fr;}
+  .gallery{grid-template-columns:1fr 1fr;}
+  .cta .pay-row{flex-direction:column; width:100%;}
+  .cta .pay-row .btn{width:100%; justify-content:center;}
+}
+@media (max-width:430px){
+  .wrap{padding-left:18px; padding-right:18px;}
+  .btn{width:100%; justify-content:center; padding:16px 22px; font-size:14px;}
+  .gallery{grid-template-columns:1fr 1fr;}
+}
